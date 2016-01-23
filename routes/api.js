@@ -42,6 +42,9 @@ api.get('/testNotif', function(req, res){
   var options = {
     method: 'POST',
     uri: 'https://gcm-http.googleapis.com',
+    headers: {
+        "Authorization": "key="+pushKey
+    },
     body: {
         key: pushKey,
         to: '/gcm/send',
@@ -58,6 +61,8 @@ api.get('/testNotif', function(req, res){
     })
     .catch(function (err) {
         // POST failed... 
+        console.log("Push Error: " +err);
+        console.log("Key: " + pushKey)
         res.send(JSON.stringify({status:"Notification Failed"}));
     });
 
