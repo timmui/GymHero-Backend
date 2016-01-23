@@ -4,9 +4,11 @@ var express = require('express');
 
 var api = express.Router();
 
-var request = require("request-promise");
+var rp = require("request-promise");
 
 var avalibleEquipment= ['Treadmill', 'Free Weights', 'Elliptical', 'Bench Press'];
+
+var pushKey = process.env.PUSH_KEY;
 
 var users = {
   'joe' : [0],
@@ -34,6 +36,31 @@ api.get('/useEquipment', function(req, res){
 
 api.get('/getUsers', function(req, res){
   res.send(JSON.stringify(users));
+})
+
+api.get('/testNotif', function(req, res){
+  var options = {
+    method: 'POST',
+    uri: 'https://gcm-http.googleapis.com',
+    body: {
+        key: pushKey,
+        to: '/gcm/send',
+        data: {
+          message: "Test Notifcation!"
+        }
+    },
+    json: true // Automatically stringifies the body to JSON 
+  };
+ 
+  rp(options)
+    .then(function (parsedBody) {
+        res.send(JSON.stringify({status:"Notification Sent"}));
+    })
+    .catch(function (err) {
+        // POST failed... 
+        res.send(JSON.stringify({status:"Notification Failed"}));
+    });
+
 })
 
 // Add articles
