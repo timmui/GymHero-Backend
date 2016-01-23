@@ -1,10 +1,8 @@
-var config = require('../.private/config.js');
+//var config = require('../.private/config.js');
 
 var express = require('express');
 
 var api = express.Router();
-
-var topic_details = [];
 
 var request = require("request-promise");
 
