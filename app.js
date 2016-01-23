@@ -32,12 +32,12 @@ var api = require('./routes/api.js')
 // routes to api
 app.use('/api',api);
 
-app.listen(config.port, function(err) {
+app.listen(3000, function(err) {
   if (err) {
     console.log(err);
   }
   else {
-    console.log('Listening on '+ config.port)
+    console.log('Listening on '+ 3000)
   }
 });
 
