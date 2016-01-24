@@ -52,7 +52,7 @@ function generateData(data){
     tread = tm;
     ec = el;
     free = wt;
-    machine = bt;
+    machine = bp;
 
     }
 
