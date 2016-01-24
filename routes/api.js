@@ -10,9 +10,10 @@ var avalibleEquipment= ['Treadmill', 'Free Weights', 'Elliptical', 'Bench Press'
 
 var pushKey = process.env.PUSH_KEY;
 
+// [equipment,device token]
 var users = {
-  'joe' : [0],
-  'jane' : [0]
+  'joe' : [-1,null],
+  'jane' : [-1,null]
   }; 
 
 
@@ -36,6 +37,43 @@ api.get('/useEquipment', function(req, res){
 
 api.get('/getUsers', function(req, res){
   res.send(JSON.stringify(users));
+})
+
+api.get('/registerUser', function(req, res){
+    var username = req.param('user');
+    var token = req.param('token');
+    users[username] = [-1,token];
+    
+  res.send(JSON.stringify(users));
+})
+
+api.get('/testNotifUser', function(req,res){
+   var options = {
+    method: 'POST',
+    uri: 'https://gcm-http.googleapis.com/gcm/send',
+    headers: {
+        "Authorization": "key="+pushKey ,
+        "Content-Type": "application/json"
+    },
+    body: {
+        to: users[req.param("user")][1],
+        data: {
+          message: "Test Notifcation!"
+        }
+    },
+    json: true // Automatically stringifies the body to JSON 
+  };
+ 
+  rp(options)
+    .then(function (parsedBody) {
+        res.send(JSON.stringify({status:"Notification Sent"}));
+    })
+    .catch(function (err) {
+        // POST failed... 
+        console.log("Push Error: " +err);
+        console.log("Key: " + pushKey)
+        res.send(JSON.stringify({status:"Notification Failed"}));
+    }); 
 })
 
 api.get('/testNotif', function(req, res){
