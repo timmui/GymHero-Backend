@@ -11,7 +11,9 @@ var users = require('./routes/users');
 //var config = require('./.private/config.js')
 
 var app = express();
-
+app.use(express.static('public/Dashboard/templates/dashboard'));
+app.use(express.static('public/Dashboard'));
+app.use("public/Dashboard/templates/dashboard/main.js", express.static(__dirname + 'public/Dashboard/templates/dashboard/main.js'));
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
