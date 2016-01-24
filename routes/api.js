@@ -58,12 +58,6 @@ api.post('/registerUser', function(req, res){
   res.send(JSON.stringify(users));
 })
 
-api.post('/resetvariables',function(req,res){
-    var users = {
-  'joe' : [0,12345],
-  'jane' : [1,6789]
-  }; 
-}
 
 api.post('/userUsing', function(req, res){
     var username = req.param('user');
