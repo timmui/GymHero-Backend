@@ -10,6 +10,12 @@ var avalibleEquipment= ['Treadmill', 'Free Weights', 'Elliptical', 'Bench Press'
 
 var pushKey = process.env.PUSH_KEY;
 
+//MONGODB VARIABLES
+var mongoKey = process.env.MONGO_KEY;   //API key
+var mongoose = require('mongoose');
+var mongoURI = process.env.MONGO_URI;
+var MongoDB = mongoose.connect(mongoURI).connection;
+
 var users = {
   'joe' : [0],
   'jane' : [0]
@@ -89,5 +95,10 @@ api.get('/testNotif', function(req, res){
 //       console.log({message: 'Article details been added to MongoDB'})
 //   })
 // })
+
+MongoDB.on('error', function(err) { console.log(err.message); });
+MongoDB.once('open', function() {
+  console.log("mongodb connection open");
+});
 
 module.exports = api;
