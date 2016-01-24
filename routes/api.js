@@ -41,12 +41,12 @@ api.get('/getUsers', function(req, res){
 api.get('/testNotif', function(req, res){
   var options = {
     method: 'POST',
-    uri: 'https://gcm-http.googleapis.com',
+    uri: 'https://gcm-http.googleapis.com/gcm/send',
     headers: {
-        "Authorization": "key="+pushKey
+        "Authorization": "key="+pushKey ,
+        "Content-Type": "application/json"
     },
     body: {
-        key: pushKey,
         to: 'fseLD6bCqu4:APA91bEhUuFBsMAjruMQ8UduV24Sj0lgiBlk0MJhdcEwLJsnysMWb-mJ_EU6z8GypArWf4IV1DcOyIQrDyJSjP6NOaZPEpHBLltg_AbHRYs45sPwELGohsfBLaXOuDNhtN5geoteKotr',
         data: {
           message: "Test Notifcation!"
