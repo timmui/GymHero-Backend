@@ -73,7 +73,8 @@ api.post('/userUsing', function(req, res){
     body: {
         to: users[username][1],
         data: {
-          message: equipmentHelp[users[username][0]]
+          message: equipmentHelp[users[username][0]],
+          equipment: avalibleEquipment[users[username][0]]
         }
     },
     json: true // Automatically stringifies the body to JSON 
@@ -107,7 +108,8 @@ api.get('/testNotifUser', function(req,res){
     body: {
         to: users[req.param("user")][1],
         data: {
-          message: "Test Notifcation!"
+          message: "Test Notifcation!",
+          equipment: "Test"
         }
     },
     json: true // Automatically stringifies the body to JSON 
@@ -136,7 +138,9 @@ api.get('/testNotif', function(req, res){
     body: {
         to: req.param("token"),
         data: {
-          message: "Test Notifcation!"
+          message: "Test Notifcation!",
+          equipment: "Test"
+          
         }
     },
     json: true // Automatically stringifies the body to JSON 
