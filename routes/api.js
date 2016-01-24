@@ -95,7 +95,16 @@ api.post('/userUsing', function(req, res){
     res.send(JSON.stringify(equipmentHelp[users[username][0]]));
 })
 
-
+api.get('/currentData', function(req,res){
+    var output = {};
+    for(var key in users){
+        if (users[key][0] >= 0){
+            output[key] = users[key];
+        }
+    }
+    
+    res.send(JSON.stringify(output));
+})
 // ---------------- Test endpoints ------------------------
 api.get('/testNotifUser', function(req,res){
    var options = {
