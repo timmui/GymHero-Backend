@@ -47,7 +47,7 @@ api.get('/testNotif', function(req, res){
     },
     body: {
         key: pushKey,
-        to: '/gcm/send',
+        to: 'fseLD6bCqu4:APA91bEhUuFBsMAjruMQ8UduV24Sj0lgiBlk0MJhdcEwLJsnysMWb-mJ_EU6z8GypArWf4IV1DcOyIQrDyJSjP6NOaZPEpHBLltg_AbHRYs45sPwELGohsfBLaXOuDNhtN5geoteKotr',
         data: {
           message: "Test Notifcation!"
         }
