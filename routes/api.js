@@ -8,7 +8,7 @@ var rp = require("request-promise");
 
 var avalibleEquipment= ['Treadmill', 'Free Weights', 'Elliptical', 'Bench Press'];
 
-var equipmentHelp= ['Treadmill are cool', 'Free Weights are cool', 'Elliptical are cool', 'Bench Press are cool'];
+var equipmentHelp= ['Gradually increase your speed throughout your workout', 'Never drop the weights carelessly when you’ve completed a set.', 'After a brief warm-up, adjust the incline and level every few minutes','Keep a tight grip on the bar at all times, a tighter grip equates to more tension in the lower arms, upper back and chest.'];
 
 var pushKey = process.env.PUSH_KEY;
 
@@ -22,8 +22,8 @@ var MongoDB = mongoose.connect(mongoURI).connection;
 
 // [equipment,device token]
 var users = {
-  'joe' : [-1,null],
-  'jane' : [-1,null]
+  'joe' : [0,12345],
+  'jane' : [1,6789]
   }; 
 
 
@@ -53,10 +53,17 @@ api.get('/getUsers', function(req, res){
 api.post('/registerUser', function(req, res){
     var username = req.param('user');
     var token = req.param('token');
-    users[username] = [-1,token];
+    users[username] = [2,token];
     
   res.send(JSON.stringify(users));
 })
+
+api.post('/resetvariables',function(req,res){
+    var users = {
+  'joe' : [0,12345],
+  'jane' : [1,6789]
+  }; 
+}
 
 api.post('/userUsing', function(req, res){
     var username = req.param('user');
