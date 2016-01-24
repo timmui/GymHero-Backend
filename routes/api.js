@@ -8,7 +8,11 @@ var rp = require("request-promise");
 
 var avalibleEquipment= ['Treadmill', 'Free Weights', 'Elliptical', 'Bench Press'];
 
+var equipmentHelp= ['Treadmill are cool', 'Free Weights are cool', 'Elliptical are cool', 'Bench Press are cool'];
+
 var pushKey = process.env.PUSH_KEY;
+
+var gcmUri = 'https://gcm-http.googleapis.com/gcm/send';
 
 //MONGODB VARIABLES
 var mongoKey = process.env.MONGO_KEY;   //API key
@@ -23,6 +27,7 @@ var users = {
   }; 
 
 
+// -------------- Production Endpoints ----------------
 // Returns static text
 api.get('/health', function(req, res){
   res.send(JSON.stringify({health:"It's all good in the hood."}));
@@ -53,10 +58,48 @@ api.post('/registerUser', function(req, res){
   res.send(JSON.stringify(users));
 })
 
+api.post('/userUsing', function(req, res){
+    var username = req.param('user');
+    users[username][0] = req.param('equipment');
+    
+    // Send Push Notification
+    var options = {
+    method: 'POST',
+    uri: gcmUri,
+    headers: {
+        "Authorization": "key="+pushKey ,
+        "Content-Type": "application/json"
+    },
+    body: {
+        to: users[username][1],
+        data: {
+          message: equipmentHelp[users[username][0]]
+        }
+    },
+    json: true // Automatically stringifies the body to JSON 
+  };
+ 
+  rp(options)
+    .then(function (parsedBody) {
+        res.send(JSON.stringify({status:"Notification Sent"}));
+    })
+    .catch(function (err) {
+        // POST failed... 
+        console.log("Push Error: " +err);
+        console.log("Key: " + pushKey)
+        res.send(JSON.stringify({status:"Notification Failed"}));
+    }); 
+    
+    
+    res.send(JSON.stringify(equipmentHelp[users[username][0]]));
+})
+
+
+// ---------------- Test endpoints ------------------------
 api.get('/testNotifUser', function(req,res){
    var options = {
     method: 'POST',
-    uri: 'https://gcm-http.googleapis.com/gcm/send',
+    uri: gcmUri,
     headers: {
         "Authorization": "key="+pushKey ,
         "Content-Type": "application/json"
@@ -85,7 +128,7 @@ api.get('/testNotifUser', function(req,res){
 api.get('/testNotif', function(req, res){
   var options = {
     method: 'POST',
-    uri: 'https://gcm-http.googleapis.com/gcm/send',
+    uri: gcmUri,
     headers: {
         "Authorization": "key="+pushKey ,
         "Content-Type": "application/json"
@@ -112,27 +155,7 @@ api.get('/testNotif', function(req, res){
 
 })
 
-// Add articles
-// api.get('/add_article', function(req,res){
-//   parsed_title = {
-//     topic: req.param('topic'),
-//     title: req.param('title'),
-//     publisher: req.param('publisher'),
-//     publisher_url: req.param('publisher_url') ,
-//     image_url: req.param('content_html'),
-//     type: req.param('type')
-//   }
-
-//   var topic_details = new ArticlesInfo(parsed_title);
-
-//   topic_details.save(function (err) {
-//       if (err) {
-//           res.send(err)
-//           return;
-//       }
-//       console.log({message: 'Article details been added to MongoDB'})
-//   })
-// })
+// MongoDB Setup
 
 MongoDB.on('error', function(err) { console.log(err.message); });
 MongoDB.once('open', function() {
