@@ -45,7 +45,7 @@ api.get('/getUsers', function(req, res){
   res.send(JSON.stringify(users));
 })
 
-api.get('/registerUser', function(req, res){
+api.post('/registerUser', function(req, res){
     var username = req.param('user');
     var token = req.param('token');
     users[username] = [-1,token];
