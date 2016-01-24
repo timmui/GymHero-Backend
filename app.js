@@ -8,6 +8,12 @@ var bodyParser = require('body-parser');
 var routes = require('./routes/index');
 var users = require('./routes/users');
 
+//MONGO VARIABLES
+var mongoKey = process.env.MONGO_KEY;   //API key
+var mongoose = require('mongoose');     //Require
+var mongoURI = process.env.MONGO_URI;    //URI
+var MongoDB = mongoose.createConnection(mongoURI);
+
 //var config = require('./.private/config.js')
 
 var app = express();
@@ -74,5 +80,9 @@ app.use(function(err, req, res, next) {
   });
 });
 
+MongoDB.on('error', function(err) { console.log(err.message); });
+MongoDB.once('open', function() {
+  console.log("mongodb connection open");
+});
 
 module.exports = app;
