@@ -47,7 +47,7 @@ api.get('/testNotif', function(req, res){
         "Content-Type": "application/json"
     },
     body: {
-        to: 'fseLD6bCqu4:APA91bEhUuFBsMAjruMQ8UduV24Sj0lgiBlk0MJhdcEwLJsnysMWb-mJ_EU6z8GypArWf4IV1DcOyIQrDyJSjP6NOaZPEpHBLltg_AbHRYs45sPwELGohsfBLaXOuDNhtN5geoteKotr',
+        to: req.param("token"),
         data: {
           message: "Test Notifcation!"
         }
