@@ -96,10 +96,13 @@ api.post('/userUsing', function(req, res){
 })
 
 api.get('/currentData', function(req,res){
-    var output = {};
+    var output = [];
+    var count = 0;
     for(var key in users){
         if (users[key][0] >= 0){
-            output[key] = users[key][0];
+            output[count] = {name: key,
+                             equipment:users[key][0]};
+            count++;
         }
     }
     
