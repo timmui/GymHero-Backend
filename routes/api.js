@@ -99,7 +99,7 @@ api.get('/currentData', function(req,res){
     var output = {};
     for(var key in users){
         if (users[key][0] >= 0){
-            output[key] = users[key];
+            output[key] = users[key][0];
         }
     }
     
